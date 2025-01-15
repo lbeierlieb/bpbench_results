@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import csv
 
-def read_files_and_plot_box(files, plot_filename, ylimit, textoffset):
+def read_files_and_plot_box(files, plot_filename, ylimit, textoffset, figsize, fontsize):
     data = []
     labels = []
 
@@ -15,11 +15,12 @@ def read_files_and_plot_box(files, plot_filename, ylimit, textoffset):
             else:
                 print(f"No valid numbers found in {filename}")
 
-    plt.figure(figsize=(10, 6))
+    plt.rcParams.update({'font.size': fontsize})
+    plt.figure(figsize=figsize)
     plt.boxplot(data, labels=labels)
     for i, dataset in enumerate(data, 1):
         median = np.median(dataset)
-        plt.text(i+textoffset, median, f'{median:.0f} ns', horizontalalignment='left', verticalalignment='center', color='black', fontsize=12)
+        plt.text(i+textoffset, median, f'{median:.0f} ns', horizontalalignment='left', verticalalignment='center', color='black')
     plt.ylim(ylimit)
     plt.xticks(rotation=45)
     plt.xlabel('Workload')
@@ -35,7 +36,7 @@ files_no_vmi = [
     ('results/result_2024-12-22_01-03-58_no-vmi/read_byte.csv', 'read byte'),
     ('results/result_2024-12-22_01-03-58_no-vmi/read_page.csv', 'read page'),
 ]
-read_files_and_plot_box(files_no_vmi, "plots/execread_boxplot_no_vmi.pdf", (0, 10000), 0.28)
+read_files_and_plot_box(files_no_vmi, "plots/execread_boxplot_no_vmi.pdf", (0, 10000), 0.28, (10, 6), 13)
 
 files_vmi = [
     ('results/result_2024-12-22_01-04-11_vmi/timing_overhead.csv', 'timer'),
@@ -43,9 +44,9 @@ files_vmi = [
     ('results/result_2024-12-22_01-04-11_vmi/exec_page.csv', 'exec page'),
     ('results/result_2024-12-22_01-04-11_vmi/read_byte.csv', 'read byte'),
 ]
-read_files_and_plot_box(files_vmi, "plots/execread_boxplot_vmi.pdf", (0, 100000), 0.24)
+read_files_and_plot_box(files_vmi, "plots/execread_boxplot_vmi.pdf", (0, 100000), 0.24, (10,6), 13)
 
 files_vmi_page = [
     ('results/result_2024-12-22_01-04-11_vmi/read_page.csv', 'read page'),
 ]
-read_files_and_plot_box(files_vmi_page, "plots/execread_boxplot_vmi_readpage.pdf", (20000000, 30000000), 0.1)
+read_files_and_plot_box(files_vmi_page, "plots/execread_boxplot_vmi_readpage.pdf", (20000000, 30000000), 0.1, (6, 6), 13)

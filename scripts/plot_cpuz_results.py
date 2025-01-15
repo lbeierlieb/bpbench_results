@@ -1,5 +1,7 @@
 import matplotlib.pyplot as plt
 
+plt.rcParams.update({'font.size': 16})
+
 labels = ["no VMI", "CR3 monitoring"]
 values = [334.7, 259.9]
 
